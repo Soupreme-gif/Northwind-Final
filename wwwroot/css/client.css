@@ -78,8 +78,18 @@ body {
 
 .discontinued {
     opacity: .5;
+    text-decoration: line-through;
+
   }
 
   #product_rows tr {
     cursor: pointer;
+}
+
+.warning {
+    color: orange;
+}
+.danger {
+    color: red;
+    font-weight: bold;
 }
