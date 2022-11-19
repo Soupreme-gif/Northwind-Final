@@ -30,7 +30,7 @@ namespace Northwind.Controllers
         // returns specific product
         public IEnumerable<Product> GetLowStock() => _northwindContext.Products.Where(p => (p.UnitsInStock + p.UnitsOnOrder) < p.ReorderLevel * 1.15);
 
-        [HttpGet, Route("api/inventory/ ")]
+        [HttpGet, Route("api/inventory/discontinued")]
         // returns specific product
         public IEnumerable<Product> GetDiscontinuedInv() => _northwindContext.Products.Where(p => p.Discontinued);
 
