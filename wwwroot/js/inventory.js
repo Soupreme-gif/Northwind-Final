@@ -160,8 +160,8 @@ $(function () {
     });
     // delegated event listener
     $('#inventory_rows').on('click', 'tr', function () {
-        // make sure a customer is logged in
-        if ($('#User').data('customer').toLowerCase() == "true") {
+        // make sure a employee is logged in
+        if ($('#User').data('Northwind-Employee').toLowerCase() == "true") {
             $('#ProductId').html($(this).data('id'));
             $('#ProductName').html($(this).data('name'));
             $('#UnitPrice').html($(this).data('price').toFixed(2));
@@ -169,7 +169,7 @@ $(function () {
             $('#Quantity').change();
             $('#cartModal').modal();
         } else {
-            toast("Access Denied", "You must be signed in as a customer to access the cart.");
+            toast("Access Denied", "You must be signed in as a employee to access the inventory.");
         }
     });
     // update total when cart quantity is changed
