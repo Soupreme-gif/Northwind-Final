@@ -207,6 +207,7 @@ $('#btn btn-secondary').on('click', function(e){
     $('#Discontinued').on('change', function () {
         getInventory();
     });
+    
     // update total when cart quantity is changed
     $('#Quantity').change(function () {
         var total = parseInt($(this).val()) * parseFloat($('#UnitPrice').html());

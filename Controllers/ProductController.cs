@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Northwind.Controllers
 {
@@ -15,6 +16,8 @@ namespace Northwind.Controllers
             ViewBag.id = id;
             return View(_northwindContext.Categories.OrderBy(c => c.CategoryName));
         }
+
+        [Authorize(Roles = "Northwind-Employee")]
         public IActionResult Inventory(){
             return View(_northwindContext.Products);
         }
