@@ -19,5 +19,6 @@ namespace Northwind.Controllers
             return View(_northwindContext.Products);
         }
         public IActionResult Discounts() => View(_northwindContext.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now));
+    
     }
 }

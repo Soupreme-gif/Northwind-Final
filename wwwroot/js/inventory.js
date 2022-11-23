@@ -45,6 +45,7 @@ const getInventoryType = () => {
     
 }
 
+
 $(function () {
     getInventory()
 
@@ -53,6 +54,7 @@ $(function () {
     }
 
     function getInventory() {
+        var id = $('#inventory_rows').data('id');
         let mode = $('#typeform').find(":selected").val();
         var settingText = "";
         switch (Number(mode)) {
@@ -105,14 +107,59 @@ $(function () {
                         + "<td>" + fractionToPercentText((response[i].unitsOnOrder + response[i].unitsInStock) / response[i].reorderLevel)+  " </td>"
                         + "</tr>";
                     $('#inventory_rows').append(row);
+
+                    
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 // log the error to the console
                 console.log("The following error occured: " + textStatus, errorThrown);
             }
+            
         });
     }
+//-----------------------Edit modal ----------------------------------------------------------------------
+//var orderRow = "<button" + css + "data-name\"" + response[i].productName + "\">"
+$('#inventory_rows').on('click', 'tr', function(){
+    
+    $('#ProductId').html($(this).data('id'));
+    $('#ProductName').html($(this).data('name'));
+    $('#unitsOnOrder').html($(this).data('on-order'));
+    $('#unitsInStock').html($(this).data('in-stock'));
+    $('#unitsOnOrder').change();
+    $('#editModal').modal();
+
+
+$('#editOrderButton').on('click', function(){
+    $('#editModal').modal('hide');
+    $.ajax({
+        headers: { "Content-Type": "application/json" },
+        url: "../../api/inventoryupdate",
+        type: 'put',
+        data: JSON.stringify({
+                "id": Number($('#ProductId').html()),
+                "qty": Number($('#onOrderQuantity').val()) 
+            }),
+        success: function (response, textStatus, jqXhr) {
+            // success
+            toast("Product successfully Ordered.");
+            getInventory();
+            
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            // log the error to the console
+            console.log("The following error occured: " + jqXHR.status, errorThrown);
+            toast("Error", "Please try again later.");
+        }
+    });
+});
+
+$('#btn btn-secondary').on('click', function(e){
+    $('#editModal').modal();
+    e.preventDefault();
+});
+});
+//-----------------end edit modal --------------------------------------------
     $('#typeform').on('change', function () {
         getInventory();
     });
@@ -155,22 +202,10 @@ $(function () {
        getInventory()
 
     });
+
+
     $('#Discontinued').on('change', function () {
         getInventory();
-    });
-    // delegated event listener
-    $('#inventory_rows').on('click', 'tr', function () {
-        // make sure a customer is logged in
-        if ($('#User').data('customer').toLowerCase() == "true") {
-            $('#ProductId').html($(this).data('id'));
-            $('#ProductName').html($(this).data('name'));
-            $('#UnitPrice').html($(this).data('price').toFixed(2));
-            // calculate and display total in modal
-            $('#Quantity').change();
-            $('#cartModal').modal();
-        } else {
-            toast("Access Denied", "You must be signed in as a customer to access the cart.");
-        }
     });
     // update total when cart quantity is changed
     $('#Quantity').change(function () {

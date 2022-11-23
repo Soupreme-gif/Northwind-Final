@@ -3,6 +3,7 @@ $(function () {
     function getProducts() {
         var id = $('#product_rows').data('id');
         var discontinued = $('#Discontinued').prop('checked') ? "" : "/discontinued/false";
+        
         $.getJSON({
             url: "../../api/category/" + id + "/product" + discontinued,
             success: function (response, textStatus, jqXhr) {
@@ -43,6 +44,7 @@ $(function () {
         } else {
             toast("Access Denied", "You must be signed in as a customer to access the cart.");
         }
+        
     });
     // update total when cart quantity is changed
     $('#Quantity').change(function () {

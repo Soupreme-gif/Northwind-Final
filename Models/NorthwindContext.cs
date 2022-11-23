@@ -29,6 +29,14 @@ namespace Northwind.Models
             customerToUpdate.Fax = customer.Fax;
             SaveChanges();
         }
+
+        public Product UpdateOrderQuantity(ProductQtyJSON productQtyJSON)
+        {
+            Product p = Products.FirstOrDefault(p => p.ProductId == productQtyJSON.id);
+            p.UnitsOnOrder += productQtyJSON.qty;
+            SaveChanges();
+            return p;
+        }
         public CartItem AddToCart(CartItemJSON cartItemJSON)
         {
             int CustomerId = Customers.FirstOrDefault(c => c.Email == cartItemJSON.email).CustomerId;
