@@ -51,6 +51,10 @@ namespace Northwind.Controllers
         // adds a row to the cartitem table
         public CartItem Post([FromBody] CartItemJSON cartItem) => _northwindContext.AddToCart(cartItem);
 
+        //-------edit modal
+        [HttpPut, Route("api/inventoryupdate")]
+        // adds a row to the cartitem table
+        public Product Put([FromBody] ProductQtyJSON productQtyJSON) => _northwindContext.UpdateOrderQuantity(productQtyJSON);
     }
 
 }
